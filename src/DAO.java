@@ -1,6 +1,9 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DAO {
 	
@@ -62,5 +65,70 @@ public class DAO {
 			disConnection();
 		}
 	}
+	
+	public List<String> getRecipeLinkList() {
+		List<String> list = new ArrayList<String>();
+		
+		try {
+			getConnection();
+			String sql = "SELECT link FROM recipe WHERE rownum < 100";
+			ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			int cnt = 1;
+			while(rs.next()) {
+				list.add(rs.getString(1));
+				System.out.println("add "+cnt+"'s recipeLink to list");
+				cnt++;
+			}
+			rs.close();
+			System.out.println("list up end...");
+		} catch (Exception e) {
+			System.out.println("DAO:ingredientInsert():");
+			e.printStackTrace();
+		} finally {
+			disConnection();
+		}
+		
+		return list;
+	}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
