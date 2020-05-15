@@ -71,7 +71,7 @@ public class DAO {
 		
 		try {
 			getConnection();
-			String sql = "SELECT link FROM recipe WHERE rownum < 100";
+			String sql = "SELECT link FROM recipe where rownum < 10";
 			ps = conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			int cnt = 1;

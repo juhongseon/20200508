@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.List;
 
 import org.jsoup.Jsoup;
@@ -9,6 +8,9 @@ import org.jsoup.select.Elements;
 public class RecipeIngrdCrawler {
 	
 	public void get(List<String> recipeLinkList) {
+		
+		//int confirmedCnt = 0;
+		//int cnt = 0;
 		
 		for(String recipeLink : recipeLinkList) {
 			try {
@@ -30,7 +32,7 @@ public class RecipeIngrdCrawler {
 							System.out.println(ingrdNo + " : " + amount);
 						}
 					}
-					
+					//confirmedCnt++;
 				} catch (Exception e) {
 					Elements subRecipeS = doc.select("div.cont_ingre dl");
 					for(Element subRecipe : subRecipeS) {
@@ -45,11 +47,14 @@ public class RecipeIngrdCrawler {
 							System.out.println(ingrdName + " : " + amount);
 						}
 					}
+					//cnt++;
 				}
 				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			//System.out.println("confirmedCnt : " + confirmedCnt);
+			//System.out.println("cnt : " + cnt);
 			System.out.println("================================");
 		}
 		
@@ -58,8 +63,6 @@ public class RecipeIngrdCrawler {
 	public static void main(String[] args) {
 		
 		List<String> recipeLinkList = new DAO().getRecipeLinkList();
-		recipeLinkList.clear();
-		recipeLinkList.add("/recipe/6929656");
 		
 		new RecipeIngrdCrawler().get(recipeLinkList);
 		
