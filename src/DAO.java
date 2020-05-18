@@ -83,13 +83,67 @@ public class DAO {
 			rs.close();
 			System.out.println("list up end...");
 		} catch (Exception e) {
-			System.out.println("DAO:ingredientInsert():");
+			System.out.println("DAO:getRecipeLinkList():");
 			e.printStackTrace();
 		} finally {
 			disConnection();
 		}
 		
 		return list;
+	}
+	
+	public List<SearchKeywordVO> getKeywordList() {
+		List<SearchKeywordVO> list = new ArrayList<SearchKeywordVO>();
+		
+		try {
+			getConnection();
+			String sql = "SELECT * FROM search_keyword";
+			ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				SearchKeywordVO vo = new SearchKeywordVO();
+				vo.setCodeNo(rs.getInt(1));
+				vo.setKeyword(rs.getString(2));
+				list.add(vo);
+				System.out.println("add "+vo.getCodeNo()+" "+vo.getKeyword()+" to list");
+			}
+			rs.close();
+			System.out.println("list up end...");
+		} catch (Exception e) {
+			System.out.println("DAO:getKeywordList():");
+			e.printStackTrace();
+		} finally {
+			disConnection();
+		}
+		
+		return list;
+	}
+	
+	public void lotterMartInsert(LotteOnProductVO vo) {
+		try {
+			getConnection();
+			String sql = "INSERT INTO lottemart VALUES(?,?,?,?,?,?,?,?,?,?,0,SYSDATE,?,?,?)";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, vo.getProductCode());
+			ps.setInt(2, vo.getCodeNo());
+			ps.setString(3, vo.getName());
+			ps.setDouble(4, vo.getPrice());
+			ps.setString(5, vo.getUnitPrice());
+			ps.setString(6, vo.getDiscountRate());
+			ps.setString(7, vo.getBrand());
+			ps.setInt(8, vo.getmPurchase());
+			ps.setDouble(9, vo.getRate());
+			ps.setInt(10, vo.getReviewCount());
+			ps.setInt(11, vo.getRank());
+			ps.setString(12, vo.getImg());
+			ps.setInt(13, vo.getOriginPrice());
+			ps.executeUpdate();
+		} catch (Exception e) {
+			System.out.println("DAO:lotterMartInsert():");
+			e.printStackTrace();
+		} finally {
+			disConnection();
+		}
 	}
 
 }
